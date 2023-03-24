@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from 'react'
 import axios from 'axios'
 import { useSearchParams } from "react-router-dom"
+import { Link } from 'react-router-dom'
 import {
   Box,
   SimpleGrid,
@@ -79,10 +80,10 @@ export const Hotelcards = () => {
 
   return (
     <> 
-      <h1> hotel List Cards</h1>
+      {/* <h1> hotel List Cards</h1> */}
 
-      <Flex minWidth='max-content'  justifyContent="space-around" alignItems='center' gap='1'>
-         
+      <Flex minWidth='max-content'  mt={5} justifyContent="space-around" alignItems='center' gap='1'>
+
        <Box
           w={{
             base: "50%",
@@ -98,9 +99,9 @@ export const Hotelcards = () => {
               border='1px solid black'  w='200px' placeholder='search ' />
         </Box>
           
-          <Box>
+          {/* <Box>
             <h1>totalpage:  {totalPages}</h1>
-          </Box>
+          </Box> */}
         <Box
           w={{
             base: "50%",
@@ -212,6 +213,8 @@ export const Hotelcards = () => {
               >
                Rs {elem.StanPrice} onwards
               </Box>
+
+              <Link to={`/hoteldetail/${elem.id}`}>
               <Button
                 fontSize={{
                   base: "18px",
@@ -236,6 +239,7 @@ export const Hotelcards = () => {
               >
                 Book Now
               </Button>
+              </Link>
             </Flex>
             <Flex>
               <Avatar
@@ -269,11 +273,11 @@ export const Hotelcards = () => {
       <Flex justifyContent={"center"} alignItems={"center"} mt={8} gap={4}>
         <Button
           onClick={() => setPage((prev) => prev - 1)}
-          disable ={ page === 1}
+          disabled ={ page === 1}
           borderColor={"blue.400"}
           bgColor={"blue.300"}
         >
-          Prevda
+          Prev
         </Button>
         <Button
           colorScheme="whiteAlpha"
@@ -283,7 +287,7 @@ export const Hotelcards = () => {
           borderColor={"blue.400"}
           color={"blue.400"}
         >
-         Current Page :   {page}
+          Page {page}
         </Button>
         <Button
           disabled={page===totalPages}
