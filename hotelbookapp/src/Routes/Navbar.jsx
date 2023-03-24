@@ -51,9 +51,13 @@ export const Navbar = () => {
              <Link to="/">
                 <Button> Home</Button>
              </Link>
+            
+             <Link to="/showhotellist">
+                <Button> Choose Hotels</Button>
+             </Link>
 
-             <Link to="/addproducts">
-                <Button>Add producs</Button>
+             <Link to="/addhotels">
+                <Button>AddHotels</Button>
              </Link>
 
 
