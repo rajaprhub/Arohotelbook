@@ -21,13 +21,12 @@ import { MdLocationOn } from "react-icons/md";
 export const Hotelcards = () => {
   const [searchParams,setSearchParams] = useSearchParams()
   const [hdata,setHdata] = useState([]) 
-  const initialSort = searchParams.get("sort")
-  const [sort,setSort] = useState(initialSort || "")
+
+  const [sort,setSort] = useState("")
   const [page,setPage]= useState(1);
-  const [totalPages,setTotalPages] = useState(0)
+  const [totalPages,setTotalPages] = useState(1)
 
   // const [limit, setLimit] = useState(9);
-
   const HandleSort = (e)=>{
     setSort(e.target.value)
    }
@@ -46,7 +45,7 @@ export const Hotelcards = () => {
      else {
       sortby = "id"
       order = "asc"
-    }
+     }
         const res = await axios.get(`https://hotelsbookapiserver.onrender.com/hotel`, {
           params: {_page:pageda,_limit:9, _sort: sortby, _order: order }
         });
@@ -67,13 +66,13 @@ export const Hotelcards = () => {
      },[page,sort])
 
  
-     const fetchData = async ()=>{
-      return axios.get(`https://hotelsbookapiserver.onrender.com/hotel`)
-        .then( (res)=>setHdata(res.data) )
-     }
-     useEffect(()=>{
-       fetchData()
-     },[])
+    //  const fetchData = async ()=>{
+    //   return axios.get(`https://hotelsbookapiserver.onrender.com/hotel`)
+    //     .then( (res)=>setHdata(res.data) )
+    //  }
+    //  useEffect(()=>{
+    //    fetchData()
+    //  },[])
       
 
 
@@ -102,6 +101,7 @@ export const Hotelcards = () => {
           {/* <Box>
             <h1>totalpage:  {totalPages}</h1>
           </Box> */}
+
         <Box
           w={{
             base: "50%",
@@ -113,7 +113,7 @@ export const Hotelcards = () => {
           ml={"10%"}
           mb={6}
         >
-          <Select   onChange={(e)=>HandleSort(e)} >
+          <Select onChange={(e)=>HandleSort(e)} >
              <option>Relevance</option>
              <option value="LH">Price: Low to High</option>
              <option value="HL">Price: High to Low</option>
@@ -121,10 +121,8 @@ export const Hotelcards = () => {
         </Box>
 
         </Flex>
-      
 
-
-      <SimpleGrid
+       <SimpleGrid
         columns={{
           base: 1,
           sm: 2,
@@ -237,7 +235,7 @@ export const Hotelcards = () => {
                 color={"blue.400"}
                 // onClick={() => handleGotoSinglePage(elem.id)}
               >
-                Book Now
+               View Details
               </Button>
               </Link>
             </Flex>
@@ -290,7 +288,7 @@ export const Hotelcards = () => {
           Page {page}
         </Button>
         <Button
-          disabled={page===totalPages}
+          disabled = { page===totalPages}
           onClick={() => setPage((prev) => prev + 1)}
           borderColor={"blue.400"}
           bgColor={"blue.300"}

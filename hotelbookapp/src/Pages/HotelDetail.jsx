@@ -31,12 +31,16 @@ import {
   import React, { useEffect, useState } from "react";
   import axios from "axios";
   import { useParams, useNavigate } from "react-router-dom";
+  import { CartContext } from '../Contexts/CartContext'
+  import { saveData } from '../Utils/accessLocalstorage'
 
 
 
 export const HotelDetail = () => {
    const { id } = useParams();
    const [data, setProduct] = useState({});
+
+   const {userCart,setUserCart} = React.useContext(CartContext)
   
      const gethoteldetail = () => {
         return axios.get(
@@ -49,6 +53,55 @@ export const HotelDetail = () => {
           .then((res) => setProduct(res.data))
           .catch((err) => console.log(err));
       }, []);
+ 
+
+      const HandleBagAdd = ()=>{
+        let bag = {
+          id: data.id,
+          hotelName: data.hotelName,
+          mainImage: data.mainImage,
+          image2: data.image1,
+          image2: data.image2,
+          city: data.city,
+          location: data.location,
+          rating: data.rating,
+          StanPrice: data.StanPrice,
+          PremPrice: data.PremPrice,
+          discount: data.discount,
+          roomtype: data.roomtype,
+          countofroom : 1,
+      }
+      console.log(bag)
+      let arr = []
+        
+      if(userCart.cart!=undefined){
+        let x = userCart.cart
+        let y = true
+        for(let j=0; j<x.length; j++){
+             if(bag.id==x[j].id){
+               x[j].countofroom = Number(x[j].countofroom)+1
+                 arr.push(x[j])
+                 y = false
+             }else{
+               arr.push(x[j])
+             }
+         }
+   
+         if(y){
+           arr.push(bag)
+         }
+         // ------------------------------------
+      }
+      setUserCart({...userCart,cart:arr})
+      saveData("Cart",{...userCart,cart:arr})
+     }
+ 
+    // HandleBagAdd()
+     
+
+
+
+
 
   return (
     <> 
@@ -61,14 +114,17 @@ export const HotelDetail = () => {
       /> */}
       <br />
       <Box  w={"95%"} m={"auto"}  border={"0px solid blue"}>
-        <Box w={"100%"}  height={500} border={"0px solid gray"}>
-          <Image w="70%" h={"100%"}  src={data.mainImage}  borderRadius={0} />
+        <Box w={"100%"}  height={350} border={"0px solid gray"}>
+          <Image w="99%" h={"100%"}  src={data.image2}  borderRadius={0} />
         </Box>
        <Box  textAlign={"left"} mt={2} mb={3}>
          <Heading>{data.hotelName}</Heading>
        </Box>
 
-      <Flex  gap={"20px"} mb={2}>
+      <Flex  justify={"space-between"} alignItems={"center"}  gap={"20px"} mb={2}>
+        <Box>
+
+    
         <Avatar
           size={{
             base: "xs",
@@ -84,6 +140,35 @@ export const HotelDetail = () => {
         <Center  fontSize='20px' >
            {data.rating} <BsFillStarFill/> Ratings
         </Center>
+        </Box>
+
+
+         <Box> 
+      <Button
+        fontSize={{
+          base: "18px",
+          sm: "12px",
+          md: "sm",
+          xl: "md",
+          "2xl": "md",
+        }}
+        size={{
+          base: "md",
+          sm: "xs",
+          md: "sm",
+          xl: "md",
+          "2xl": "md",
+        }}
+        borderRadius={10}
+        variant="outline"
+        borderColor={"blue.400"}
+        border="1px"
+        color={"blue.400"}
+        onClick={HandleBagAdd}
+      >
+        Add to Cart
+      </Button>
+      </Box>    
       </Flex>
    
       <Divider/>
@@ -113,31 +198,7 @@ export const HotelDetail = () => {
               Avail Rs {data.StanPrice} onwards
               </Box>
 
-        
-              <Button
-                fontSize={{
-                  base: "18px",
-                  sm: "12px",
-                  md: "sm",
-                  xl: "md",
-                  "2xl": "md",
-                }}
-                size={{
-                  base: "md",
-                  sm: "xs",
-                  md: "sm",
-                  xl: "md",
-                  "2xl": "md",
-                }}
-                borderRadius={10}
-                variant="outline"
-                borderColor={"blue.400"}
-                border="1px"
-                color={"blue.400"}
-                // onClick={() => handleGotoSinglePage(elem.id)}
-              >
-                Add to Cart
-              </Button>
+       
               </Flex>
               </Box>
 
@@ -204,30 +265,6 @@ export const HotelDetail = () => {
       </Box>
 
 
-      <Button
-        fontSize={{
-          base: "18px",
-          sm: "12px",
-          md: "sm",
-          xl: "md",
-          "2xl": "md",
-        }}
-        size={{
-          base: "md",
-          sm: "xs",
-          md: "sm",
-          xl: "md",
-          "2xl": "md",
-        }}
-        borderRadius={10}
-        variant="outline"
-        borderColor={"blue.400"}
-        border="1px"
-        color={"blue.400"}
-        // onClick={() => handleGotoSinglePage(elem.id)}
-      >
-        Add to Cart
-      </Button>
       </Flex>
       </Box>
 

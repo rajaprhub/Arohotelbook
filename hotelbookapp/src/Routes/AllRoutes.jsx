@@ -4,6 +4,7 @@ import {Homepage} from '../Pages/Homepage'
 import {AddHotels} from "../Pages/AddHotels"
 import {Hotelcards} from "../Pages/Hotelcards"
 import { HotelDetail } from '../Pages/HotelDetail'
+import { Cart } from '../Components/Cart'
 
 export const AllRoutes = () => {
 
@@ -15,6 +16,7 @@ export const AllRoutes = () => {
          <Route path='/addhotels'    element={ <AddHotels/>} /> 
          <Route path ="/showhotellist"  element ={ <Hotelcards/>  }/>
          <Route path ="/hoteldetail/:id"  element ={ <HotelDetail/>  }/>
+         <Route path ="/cart"  element ={ <Cart/>  }/>
 
     </Routes>
   )

@@ -1,3 +1,4 @@
+import React from 'react'
 import { ReactNode} from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -17,8 +18,11 @@ import {
   useColorMode,
   Center,
 } from '@chakra-ui/react';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-
+import { useState,useContext } from "react"
+import { CartContext } from "../Contexts/CartContext";
 
 const NavLink = ({ children }) => (
   <Link
@@ -37,6 +41,14 @@ const NavLink = ({ children }) => (
 export const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
+  const { userCart } = useContext(CartContext);
+  const [cartItem, setCartItem] = useState(0);
+
+  React.useEffect(() => {
+    if(userCart.cart){
+      setCartItem(userCart.cart.length);
+    }
+  }, [userCart]);
 
 
   
@@ -56,10 +68,12 @@ export const Navbar = () => {
                 <Button> Book Hotels</Button>
              </Link>
 
-             <Link to="/addhotels">
+             {/* <Link to="/addhotels">
                 <Button>AddHotels</Button>
-             </Link>
+             </Link> */}
 
+     
+   
 
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
@@ -70,6 +84,25 @@ export const Navbar = () => {
               <Link to="/register">
                 <Button> Sign up</Button>
               </Link>
+
+
+              <Box>
+           
+           <Center>
+          <h1> Cart : </h1>
+           <Link to='/cart'>
+          <Flex  gap={"10px"}  justifyContent={"center"} style={{width:"40px",cursor:"pointer"}}> 
+             <FontAwesomeIcon mb={"10"} style={{color:"black",background:"transparent"}} icon={faCartShopping}/>
+              <Center  fontSize='20px' >
+               <sup style={{background:"white"}}> {cartItem}</sup>
+               </Center>
+            </Flex>
+           </Link>  
+             
+           </Center>
+       
+             </Box>
+             
               <Button onClick={toggleColorMode}>
                  {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
